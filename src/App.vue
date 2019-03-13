@@ -1,24 +1,23 @@
 <template>
   <div id="app">
-
-    <Facets/>
-    <Images/>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 
-import Facets from './components/Facets.vue'
-import Images from './components/Images.vue'
+import Browse from './components/Browse.vue'
+
 
 export default {
   name: 'app',
   components: {
-    Facets,
-    Images
+    Browse
   }
 }
 </script>
+
+
 
 <style>
 #app {
@@ -29,4 +28,13 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+</style>
+
+<style lang='sass'>
+  /* Override Bulma theme defaults */
+  $primary: #4c4c6e
+
+  $size-1: 3.5rem
+
+  @import "../node_modules/bulma/bulma.sass"
 </style>

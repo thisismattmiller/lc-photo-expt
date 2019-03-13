@@ -1,75 +1,57 @@
 <template>
   <div id="facets">
-
-  <span>P21 - Sex or Gender</span>
-  <ul>
-    <li v-for="(item, key) in facetP21">
-      <a href="#" v-if="key < 20" v-on:click="setFacet(['p21',item[0]])">{{ item[0] }} ({{ item[1] }})</a>
-      <a href="#" class="facet facet-hidden" v-else v-on:click="setFacet(['p21',item[0]])">{{ item[0] }} ({{ item[1] }})</a>
-    </li>
-  </ul>
-  <span>P21 - Birth Decade</span>
-  <ul>
-    <li v-for="(item, key) in facetBirth">
-      <a href="#" v-if="key < 20" v-on:click="setFacet(['birth',item[0]])">{{ item[0] }}s ({{ item[1] }})</a>
-      <a href="#" class="facet facet-hidden" v-else v-on:click="setFacet(['birth',item[0]])">{{ item[0] }} ({{ item[1] }})</a>
-    </li>
-  </ul>
-  <span>P21 - Occupation</span>
-  <ul>
-    <li v-for="(item, key) in facetOcc">
-      <a href="#" v-if="key < 20" v-on:click="setFacet(['occ',item[0]])">{{ item[0] }} ({{ item[1] }})</a>
-      <a href="#" class="facet facet-hidden" v-else v-on:click="setFacet(['occ',item[0]])">{{ item[0] }} ({{ item[1] }})</a>
-    </li>
-  </ul>
-  <span>P21 - Keyword</span>
-  <ul>
-    <li v-for="(item, key) in facetDesc">
-      <a href="#" v-if="key < 20" v-on:click="setFacet(['desc',item[0]])()">{{ item[0] }} ({{ item[1] }})</a>
-      <a href="#" class="facet facet-hidden" v-else v-on:click="setFacet(['desc',item[0]])">{{ item[0] }} ({{ item[1] }})</a>
-    </li>
-  </ul>
-
-
+    <div class="facet-group">
+      <div>P21 - Sex or Gender</div>
+      <ul>
+        <li v-for="(item, key) in facetP21">
+          <router-link v-if="key < 20" class="facet" tag="a" :to="{ query: {p21:item[0].replace(/\s/g,'_'), birth:$route.query.birth, country:$route.query.country, occ:$route.query.occ, desc:$route.query.desc}}">{{item[0]}}</router-link>
+          <router-link v-else class="facet facet-hidden" tag="a" :to="{ query: {p21:item[0].replace(/\s/g,'_'), birth:$route.query.birth, country:$route.query.country, occ:$route.query.occ, desc:$route.query.desc}}">{{item[0]}}</router-link>
+        </li>
+      </ul>
+    </div>
+    <div class="facet-group">
+      <div>Px - Decade of Birth</div>
+      <ul>
+        <li v-for="(item, key) in facetBirth">
+          <router-link v-if="key < 20" class="facet" tag="a" :to="{ query: {p21:$route.query.p21, birth:item[0], country:$route.query.country, occ:$route.query.occ, desc:$route.query.desc}}">{{item[0]}}</router-link>
+          <router-link v-else class="facet facet-hidden" tag="a" :to="{ query: {p21:$route.query.p21, birth:item[0], country:$route.query.country, occ:$route.query.occ, desc:$route.query.desc}}">{{item[0]}}</router-link>
+        </li>
+      </ul>
+    </div>
+    <div class="facet-group">
+      <div>Px - Occupation</div>
+      <ul>
+        <li v-for="(item, key) in facetOcc">
+          <router-link v-if="key < 20" class="facet" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth, country:$route.query.country, occ:item[0], desc:$route.query.desc}}">{{item[0]}}</router-link>
+          <router-link v-else class="facet facet-hidden" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth, country:$route.query.country, occ:item[0], desc:$route.query.desc}}">{{item[0]}}</router-link>
+        </li>
+      </ul>
+    </div>
+    <div class="facet-group">
+      <div>Px - Country</div>
+      <ul>
+        <li v-for="(item, key) in facetCountry">
+          <router-link v-if="key < 20" class="facet" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth, country:item[0].replace(/\s/g,'_'), occ:$route.query.occ, desc:$route.query.desc}}">{{item[0]}}</router-link>
+          <router-link v-else class="facet facet-hidden" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth, country:item[0].replace(/\s/g,'_'), occ:$route.query.occ, desc:$route.query.desc}}">{{item[0]}}</router-link>
+        </li>
+      </ul>
+    </div>
+    <div class="facet-group">
+      <div>Px - Desc</div>
+      <ul>
+        <li v-for="(item, key) in facetDesc">
+          <router-link v-if="key < 20" class="facet" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth, country:$route.query.country, occ:$route.query.occ, desc:item[0].replace(/\s/g,'_')}}">{{item[0]}}</router-link>
+          <router-link v-else class="facet facet-hidden" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth, country:$route.query.country, occ:$route.query.occ, desc:item[0].replace(/\s/g,'_')}}">{{item[0]}}</router-link>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
 
 
-function processFacets(self,response){
 
-  self.facetP21 = []
-  self.facetBirth = []
-  self.facetDesc = []
-  self.facetOcc = []
-
-  
-  Object.keys(response.data.facets).forEach(function(key){
-    var sortable = [];
-    for (var val in response.data.facets[key]) {
-        sortable.push([val, response.data.facets[key][val]]);
-    }
-
-    sortable.sort(function(a, b) {
-        return b[1] - a[1];
-    });
-
-
-    if (key === 'p21'){
-      self.facetP21 = sortable
-    }else if (key === 'birth'){
-      self.facetBirth = sortable
-    }else if (key === 'desc'){
-      self.facetDesc = sortable
-    }else if (key === 'occ'){
-      self.facetOcc = sortable
-    }
-    //self.facets = 'zzzzzz'
-
-  })  
-
-}
 
 
 export default {
@@ -79,68 +61,105 @@ export default {
       facetP21: [],
       facetBirth: [],
       facetOcc: [],
-      facetBirth: [],
-      facetDesc: [],
-      facetsActive: { 'p21': null, 'occ':null, 'desc':null,'birth':null}
+      facetCountry: [],
+      facetDesc: []
     }
   },
   props: {
     msg: String
   },
-  methods: {
-    setFacet: function (setTo,event) {
-      
-      this.facetsActive[setTo[0]] = setTo[1].toLowerCase().replace(/\s/g,'_')
-      console.log(this.facetsActive)
-
-      // ['p21','birth','occ','country']#,'desc']
-      var url = ""
-
-      if (this.facetsActive.p21 !== null) url = url + '&p21='+this.facetsActive.p21
-      if (this.facetsActive.birth !== null) url = url + '&birth='+this.facetsActive.birth
-      if (this.facetsActive.occ !== null) url = url + '&occ='+this.facetsActive.occ
-      if (this.facetsActive.desc !== null) url = url + '&desc='+this.facetsActive.desc
+  methods: {  
+    processRoute: function(to){
+      var url = ''
+      if (to.query.p21) url = url + '&p21=' + to.query.p21
+      if (to.query.birth) url = url + '&birth=' + to.query.birth
+      if (to.query.occ) url = url + '&occ=' + to.query.occ.toLowerCase().replace(/\s/g,'_')
+      if (to.query.country) url = url + '&country=' + to.query.country.toLowerCase().replace(/\s/g,'_')
+      if (to.query.desc) url = url + '&desc=' + to.query.desc.toLowerCase().replace(/\s/g,'_')
 
       url = url.replace('&','')
       url = 'https://s3.amazonaws.com/lc-photo-expt/facets/' + url
-
       this.$http.get(url)
         .then(response => {
-          processFacets(this,response)
-
-          this.$root.$emit('facetChange', response);
+          this.processFacets.apply(this,[response])
       });
-      if (event) event.preventDefault()
-    }
+
+
+    },
+    processFacets: function(response){
+      this.$data.facetP21 = []
+      this.$data.facetBirth = []
+      this.$data.facetDesc = []
+      this.$data.facetOcc = []
+      this.$data.facetCountry = []
+
+      
+      Object.keys(response.data.facets).forEach((key) => {
+        var sortable = [];
+        for (var val in response.data.facets[key]) {
+            sortable.push([val, response.data.facets[key][val]]);
+        }
+
+        sortable.sort(function(a, b) {
+            return b[1] - a[1];
+        });
+
+
+        if (key === 'p21'){
+          this.$data.facetP21 = sortable
+        }else if (key === 'birth'){
+          this.$data.facetBirth = sortable
+        }else if (key === 'desc'){
+          this.$data.facetDesc = sortable
+        }else if (key === 'occ'){
+          this.$data.facetOcc = sortable
+        }else if (key === 'country'){
+          this.$data.facetCountry = sortable
+        }
+        //this.$data.facets = 'zzzzzz'
+
+      })  
+      this.$root.$emit('facetChange', response);
+    }    
+
   },
   created: function () {
-    this.$http.get('https://s3.amazonaws.com/lc-photo-expt/facets/all')
-      .then(response => {
-        processFacets(this,response)
-      });
-  }
+    if (Object.keys(this.$route.query).length === 0){
+      this.$http.get('https://s3.amazonaws.com/lc-photo-expt/facets/all')
+        .then(response => {
+          this.processFacets.apply(this,[response])
+        });
+    }else{
+      this.processRoute(this.$route)
+    }
+
+  },
+  watch: {
+    '$route' (to, from) {
+      this.processRoute(to);
+    }
+  }  
 
 }
+
+
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-a {
-  color: #42b983;
-}
 
 #facets{
   float:left;
 }
 
+
+.facet{
+  display: block;
+  text-align:left;
+  text-transform: capitalize;
+  text-decoration:none;
+}
 .facet-hidden{
   display:none;
 }
