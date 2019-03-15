@@ -1,23 +1,11 @@
 <template>
   <div id="browse">
+
+
     
     <div class="columns">
-      <div class="column is-one-quarter"></div>
-      <div class="column">
-        <div class="columns">
-          <div class="column is-half">
-            Depicts:
-          </div>
-          <div class="column is-half">
-            Contributed To:
-          </div>
-        </div>        
-      </div>
-    </div>
-
-    <div class="columns">
-      <div class="column is-one-quarter"><Facets/></div>
-      <div class="column"><Images/></div>
+      <div class="column"><Facets/></div>
+      <div class="column is-10"><Images/></div>
     </div>
 
     

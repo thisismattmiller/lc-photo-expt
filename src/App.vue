@@ -24,17 +24,15 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  padding: 10px;
 }
 </style>
 
 <style lang='sass'>
   /* Override Bulma theme defaults */
-  $primary: #4c4c6e
+  $primary: #2980b9
 
-  $size-1: 3.5rem
+  // $size-1: 3.5rem
 
   @import "../node_modules/bulma/bulma.sass"
 </style>
