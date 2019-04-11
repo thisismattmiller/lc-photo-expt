@@ -18,10 +18,11 @@
 
     </div>
 
-      <div v-for="person in people">
-      <div class="columns header" >
+      <div v-for="(person, personCount) in people">
+      <div class="columns header" data-popuptext="Wikidata supplied image and metadata" >
         <div class="column">
-          <img :src="person.thumbUrl"/>
+          <span v-if="personCount == 0" class="wikidata-data-label">Wikidata Metadata</span>
+          <img onerror="this.style.display='none'" :alt="'Image from Wikimedia Commons depicting ' + person.label" :title="'Image from Wikimedia Commons depicting ' + person.label" :src="person.thumbUrl"/>
         </div>
         <div class="column is-11 tombstone">
           <h5 class="is-size-5"><a :href="'https://www.wikidata.org/wiki/'+person.qid" target="_blank"> {{person.label}}</a></h5>
@@ -40,6 +41,7 @@
       </div>
       <div class="columns">
         <div class="column is-half image-lc-container">
+          <div v-if="personCount == 0"  class="image-header-note">Resources from Library of Congress where the entity is the subject of the image.</div>
           <a v-for="image in person.subject" target="_blank" :href="image.l" >
             <div class="image-lc image-lc-subject" data-popupleft="100px" :data-popuptext="image.t" v-bind:style="{backgroundImage: 'url(' + image.i + ')' }" ></div>
           </a>
@@ -48,6 +50,8 @@
           <button class="button" v-on:click="loadMoreImages(person.qid,'subject')" v-if="person.totalSubjectPages > 0 && person.loadedAllSubjects == false">Show More ({{person.totalSubjectPages*25}} Total)</button>
         </div>
         <div class="column image-lc-contributors image-lc-container">
+          <div v-if="personCount == 0"  class="image-header-note">Resources from Library of Congress where the entity contributed to its creation.</div>
+
           <a v-for="image in person.contributor" target="_blank" :href="image.l" >
             <div class="image-lc image-lc-contributor" :data-popuptext="image.t" v-bind:style="{backgroundImage: 'url(' + image.i + ')' }" ></div>
           </a>
@@ -69,7 +73,7 @@
         <router-link  :to="{ query: {p21:$route.query.p21, birth:$route.query.birth, country:$route.query.country, occ:$route.query.occ, desc:$route.query.desc, page: (parseInt($route.query.page)-1 >= 1) ? (parseInt($route.query.page)-1) : $route.query.page }}" class="button is-pulled-left" tag="button" :disabled="parseInt($route.query.page) == 1">Previous Page ({{$route.query.page}}/{{$route.query.pageCount}})</router-link>    
       </div>
       <div class="column is-one-third image-explaination">
-        <span>Images on left depict subject. Images on right are works created by subject.</span>
+
 
 
       </div>
@@ -276,7 +280,12 @@ background: linear-gradient(to right, rgba(229,229,229,1) 0%,rgba(255,255,255,1)
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
   border-radius: 5px;
   margin-top: 20px;
+  position: relative;
 }
+.header:hover{
+  background-color:blue !important;
+  }
+
 .image-lc-container{
   position: relative;
 
@@ -358,4 +367,23 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 .image-explaination{
   text-align:center;
 }
+.wikidata-data-label{
+    font-size: 0.7em;
+    position: absolute;
+    top: 1px;
+    left: 45.5%;
+}
+.image-header-note{
+  font-size: 0.75em;
+  background-color: lightgoldenrodyellow;
+  text-align: center;
+}
+
+
+
+
+
+
+
+
 </style>
