@@ -149,12 +149,12 @@
       <div class="facet-group-title">P27 - Country</div>
       <ul>
         <li v-for="(item, key) in facetCountry">
-          <router-link v-if="key < 20" class="facet" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth, country:item[0].replace(/\s/g,'_'), occ:$route.query.occ, education:$route.query.education, desc:$route.query.desc, page: 1}}"><span>{{item[0]}}</span><span>({{item[1]}})</span></router-link>
-          <router-link v-else-if="facetShowMoreCountry == true" class="facet" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth,  birthplace:$route.query.birthplace, country:item[0].replace(/\s/g,'_'), occ:$route.query.occ, education:$route.query.education, desc:$route.query.desc, page: 1}}"><span>{{item[0]}}</span><span>({{item[1]}})</span></router-link>
-          <router-link v-else class="facet facet-hidden" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth,  birthplace:$route.query.birthplace, country:item[0].replace(/\s/g,'_'), occ:$route.query.occ, education:$route.query.education, desc:$route.query.desc, page: 1}}"><span>{{item[0]}}</span><span>({{item[1]}})</span></router-link>
+          <router-link v-if="key < 20" class="facet" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth, birthplace:$route.query.birthplace, deathplace:$route.query.deathplace, languages:$route.query.languages, country:item[0].replace(/\s/g,'_'), occ:$route.query.occ, awards:$route.query.awards, education:$route.query.education, desc:$route.query.desc, page: 1}}"><span>{{item[0]}}</span><span>({{item[1]}})</span></router-link>
+          <router-link v-else-if="facetShowMoreCountry == true" class="facet" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth,  birthplace:$route.query.birthplace, languages:$route.query.languages, deathplace:$route.query.deathplace, country:item[0].replace(/\s/g,'_'), occ:$route.query.occ, awards:$route.query.awards, education:$route.query.education, desc:$route.query.desc, page: 1}}"><span>{{item[0]}}</span><span>({{item[1]}})</span></router-link>
+          <router-link v-else class="facet facet-hidden" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth,  birthplace:$route.query.birthplace, deathplace:$route.query.deathplace, languages:$route.query.languages, country:item[0].replace(/\s/g,'_'), occ:$route.query.occ, awards:$route.query.awards, education:$route.query.education, desc:$route.query.desc, page: 1}}"><span>{{item[0]}}</span><span>({{item[1]}})</span></router-link>
         </li>
         <li v-if="$route.query.country">
-          <router-link class="facet" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth,  birthplace:$route.query.birthplace, country:null, occ:$route.query.occ, education:$route.query.education, desc:$route.query.desc, page: 1}}"><span>{{$route.query.country.replace(/_/,' ')}}</span><span>Remove</span></router-link>          
+          <router-link class="facet" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth,  birthplace:$route.query.birthplace, deathplace:$route.query.deathplace, country:null, languages:$route.query.languages, occ:$route.query.occ, education:$route.query.education, awards:$route.query.awards, desc:$route.query.desc, page: 1}}"><span>{{$route.query.country.replace(/_/,' ')}}</span><span>Remove</span></router-link>          
         </li>
 
       </ul>
@@ -162,15 +162,16 @@
     </div>
     <div class="facet-group">
       <div class="facet-group-title">Description Keywords</div>
+
       <ul>
         <li v-for="(item, key) in facetDesc">
-          <router-link v-if="key < 20" class="facet" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth,  birthplace:$route.query.birthplace, deathplace:$route.query.deathplace, awards:$route.query.awards, languages:$route.query.languages, country:$route.query.country, occ:$route.query.occ, desc:item[0].replace(/\s/g,'_'), page: 1}}"><span>{{item[0]}}</span><span>({{item[1]}})</span></router-link>
-          <router-link v-else-if="facetShowMoreDesc == true" class="facet" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth,  birthplace:$route.query.birthplace, deathplace:$route.query.deathplace, awards:$route.query.awards, languages:$route.query.languages, country:$route.query.country, occ:$route.query.occ, desc:item[0].replace(/\s/g,'_'), page: 1}}"><span>{{item[0]}}</span><span>({{item[1]}})</span></router-link>
+          <router-link v-if="key < 20" class="facet" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth,  birthplace:$route.query.birthplace, deathplace:$route.query.deathplace, awards:$route.query.awards, languages:$route.query.languages, country:$route.query.country, occ:$route.query.occ, education:$route.query.education, desc:item[0].replace(/\s/g,'_'), page: 1}}"><span>{{item[0]}}</span><span>({{item[1]}})</span></router-link>
+          <router-link v-else-if="facetShowMoreDesc == true" class="facet" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth,  birthplace:$route.query.birthplace, deathplace:$route.query.deathplace, awards:$route.query.awards, languages:$route.query.languages, country:$route.query.country, occ:$route.query.occ, education:$route.query.education, desc:item[0].replace(/\s/g,'_'), page: 1}}"><span>{{item[0]}}</span><span>({{item[1]}})</span></router-link>
 
-          <router-link v-else class="facet facet-hidden" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth,  birthplace:$route.query.birthplace, deathplace:$route.query.deathplace, awards:$route.query.awards, languages:$route.query.languages, country:$route.query.country, occ:$route.query.occ, desc:item[0].replace(/\s/g,'_'), page: 1}}"><span>{{item[0]}}</span><span>({{item[1]}})</span></router-link>
+          <router-link v-else class="facet facet-hidden" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth,  birthplace:$route.query.birthplace, deathplace:$route.query.deathplace, awards:$route.query.awards, languages:$route.query.languages, country:$route.query.country, occ:$route.query.occ, education:$route.query.education, desc:item[0].replace(/\s/g,'_'), page: 1}}"><span>{{item[0]}}</span><span>({{item[1]}})</span></router-link>
         </li>
         <li v-if="$route.query.desc">
-          <router-link class="facet" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth,  birthplace:$route.query.birthplace, deathplace:$route.query.deathplace, awards:$route.query.awards, languages:$route.query.languages, country:$route.query.country, occ:$route.query.occ, desc:null, page: 1}}"><span>{{$route.query.desc.replace(/_/,' ')}}</span><span>Remove</span></router-link>          
+          <router-link class="facet" tag="a" :to="{ query: {p21:$route.query.p21, birth:$route.query.birth,  birthplace:$route.query.birthplace, deathplace:$route.query.deathplace, awards:$route.query.awards, languages:$route.query.languages, country:$route.query.country, occ:$route.query.occ, education:$route.query.education, desc:null, page: 1}}"><span>{{$route.query.desc.replace(/_/,' ')}}</span><span>Remove</span></router-link>          
         </li>
 
       </ul>
@@ -347,9 +348,11 @@ export default {
           this.processFacets.apply(this,[response])
         },
           (err) => {
+            console.log(err)
             alert("There was an error requesting that facet combination");
         })
         .catch((e) => {
+            console.log(e)
             alert("There was an error requesting that facet combination");
         });
     }else if (!this.$route.query.p21 && !this.$route.query.birth && !this.$route.query.birthplace && !this.$route.query.deathplace && !this.$route.query.awards && !this.$route.query.languages && !this.$route.query.occ && !this.$route.query.education && !this.$route.query.country && !this.$route.query.desc){
@@ -361,9 +364,11 @@ export default {
           this.processFacets.apply(this,[response])
         },
           (err) => {
+            console.log(err)
             alert("There was an error requesting that facet combination");
         })
         .catch((e) => {
+            console.log(e)
             alert("There was an error requesting that facet combination");
         });        
     
@@ -384,10 +389,12 @@ export default {
             this.processFacets.apply(this,[response])
           },
           (err) => {
+            console.log(err)
             alert("There was an error requesting that facet combination");
           }
           )
           .catch((e) => {
+              console.log(e)
               alert("There was an error requesting that facet combination");
           });          
 
