@@ -216,8 +216,8 @@ export default {
       // facetDataBaseURL: 'https://s3.amazonaws.com/lc-photo-expt/facets_new/',
       // facetDataAllURL: 'https://s3.amazonaws.com/lc-photo-expt/facets_new/a/a1/a18/a181a603769c1f98ad927e7367c7aa51',
 
-      facetDataBaseURL: 'http://localhost:8000/',
-      facetDataAllURL: 'http://localhost:8000/a/a1/a18/a181a603769c1f98ad927e7367c7aa51'
+      facetDataBaseURL: 'https://s3.amazonaws.com/lc-photo-expt/facet_blocks/',
+      facetDataAllURL: 'https://s3.amazonaws.com/lc-photo-expt/facet_blocks/a/a1/a18/a181/facets.json'
 
     }
   },
@@ -269,16 +269,17 @@ export default {
       url = url.replace('&','')
 
       var urlMd5 = md5(url)
-      var path = urlMd5.substring(0, 1) + '/' + urlMd5.substring(0, 2) + '/' + urlMd5.substring(0, 3) + '/'
+      var path = urlMd5.substring(0, 1) + '/' + urlMd5.substring(0, 2) + '/' + urlMd5.substring(0, 3) + '/' + urlMd5.substring(0, 4) + '/';
       
-      console.log(url)
+
       if (url.trim() != ''){
 
 
-        url = this.$data.facetDataBaseURL + path + urlMd5;
+        url = this.$data.facetDataBaseURL + path + 'facets.json';
       
         this.$http.get(url)
           .then(response => {
+            response.lookingFor = urlMd5
             this.processFacets.apply(this,[response])
         })
         .catch((e) => {
@@ -288,6 +289,7 @@ export default {
 
     },
     processFacets: function(response){
+      console.log(response)
       this.$data.facetP21 = []
       this.$data.facetBirth = []
       this.$data.facetBirthplace = []
@@ -298,6 +300,8 @@ export default {
       this.$data.facetCountry = []
       this.$data.facetAwards = []
       this.$data.facetLanguages = []
+
+      response.data = response.data[response.lookingFor]
 
       Object.keys(response.data.facets).forEach((key) => {
         var sortable = [];
@@ -345,6 +349,7 @@ export default {
       this.$route.query.page = 1;
       this.$http.get(this.$data.facetDataAllURL)
         .then(response => {
+          response.lookingFor = 'a181a603769c1f98ad927e7367c7aa51';
           this.processFacets.apply(this,[response])
         },
           (err) => {
@@ -361,6 +366,7 @@ export default {
       }
       this.$http.get(this.$data.facetDataAllURL)
         .then(response => {
+          response.lookingFor = 'a181a603769c1f98ad927e7367c7aa51';
           this.processFacets.apply(this,[response])
         },
           (err) => {
@@ -386,6 +392,7 @@ export default {
       if (!this.$route.query.p21 && !this.$route.query.birth && !this.$route.query.birthplace && !this.$route.query.deathplace && !this.$route.query.awards && !this.$route.query.languages && !this.$route.query.occ && !this.$route.query.education && !this.$route.query.country && !this.$route.query.desc){
         this.$http.get(this.$data.facetDataAllURL)
           .then(response => {
+            response.lookingFor = 'a181a603769c1f98ad927e7367c7aa51';
             this.processFacets.apply(this,[response])
           },
           (err) => {

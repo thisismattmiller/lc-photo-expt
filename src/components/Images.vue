@@ -27,11 +27,11 @@
         <div class="column is-11 tombstone">
           <h5 class="is-size-5"><a :href="'https://www.wikidata.org/wiki/'+person.qid" target="_blank"> {{person.label}}</a></h5>
           <div>
-            <span>{{person.full_desc}}</span>
-            <span v-if="person.birth">{{person.birth}}s</span>
-            <span>{{person.country}}</span>
-            <span>{{person.occ}}</span>
-            <span>{{person.p21}}</span>
+            <span>{{person.full_desc}}&nbsp;|</span>
+            <span v-if="person.birth">{{person.birth}}s&nbsp;|</span>
+            <span>{{person.country}}&nbsp;|</span>
+            <span>{{person.occ.join(', ')}}&nbsp;|</span>
+            <span>{{person.p21}}&nbsp;|</span>
             <a href="#" title="View Wikipedia Article"  v-on:click="gotoWiki(person.qid,$event)">View Wiki</a>
             <div v-for="wikiLink in person.wikiLinks">
                 <span>{{wikiLink.p}}</span><a target="_blank" :href="wikiLink.u">{{wikiLink.t}}</a>
@@ -128,7 +128,7 @@ export default {
 
           if (nextPage <= (p[totalPagesVar])){
             //Q23_subject_page_1.json
-            var url = `https://s3.amazonaws.com/lc-photo-expt/qjson/${qid}_${type}_page_${nextPage}.json`
+            var url = `https://s3.amazonaws.com/lc-photo-expt/qjson22/${qid}_${type}_page_${nextPage}.json`
             this.$http.get(url)
               .then(response => {
                 var data = response.data;
@@ -218,7 +218,7 @@ export default {
 
       self.people = [];
       page.forEach(function(qid){
-        self.$http.get('https://s3.amazonaws.com/lc-photo-expt/qjson/'+qid+'.json')
+        self.$http.get('https://s3.amazonaws.com/lc-photo-expt/qjson2/'+qid+'.json')
           .then(response => {
             var data = response.data
             data.thumbUrl = ''
