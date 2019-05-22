@@ -27,11 +27,11 @@
         <div class="column is-11 tombstone">
           <h5 class="is-size-5"><a :href="'https://www.wikidata.org/wiki/'+person.qid" target="_blank"> {{person.label}}</a></h5>
           <div>
-            <span>{{person.full_desc}}&nbsp;|</span>
-            <span v-if="person.birth">{{person.birth}}s&nbsp;|</span>
-            <span>{{person.country}}&nbsp;|</span>
-            <span>{{person.occ.join(', ')}}&nbsp;|</span>
-            <span>{{person.p21}}&nbsp;|</span>
+            <span v-if="person.full_desc">{{person.full_desc+'&nbsp;|&nbsp;'}}</span>
+            <span v-if="person.birth">{{person.birth+'s&nbsp;|&nbsp;'}}</span>
+            <span v-if="person.country">{{person.country+'&nbsp;|&nbsp;'}}</span>
+            <span v-if="person.occ.length>0">{{person.occ.join(', ')+'&nbsp;|&nbsp;'}}</span>
+            <span v-if="person.p21">{{person.p21+'&nbsp;|&nbsp;'}}</span>
             <a href="#" title="View Wikipedia Article"  v-on:click="gotoWiki(person.qid,$event)">View Wiki</a>
             <div v-for="wikiLink in person.wikiLinks">
                 <span>{{wikiLink.p}}</span><a target="_blank" :href="wikiLink.u">{{wikiLink.t}}</a>
@@ -42,7 +42,7 @@
       <div class="columns">
         <div class="column is-half image-lc-container">
           <div v-if="personCount == 0"  class="image-header-note">Resources from Library of Congress where the entity is the subject of the image.</div>
-          <a v-for="image in person.subject" target="_blank" :href="image.l" >
+          <a v-for="image in person.subject" target="_blank" :href="image.l.replace('http://www.loc.gov/pictures/item/','https://www.loc.gov/item/')" >
             <div class="image-lc image-lc-subject" data-popupleft="100px" :data-popuptext="image.t" v-bind:style="{backgroundImage: 'url(' + image.i + ')' }" ></div>
           </a>
           <!-- <span class="image-catagory">Depicts</span> -->
@@ -52,7 +52,7 @@
         <div class="column image-lc-contributors image-lc-container">
           <div v-if="personCount == 0"  class="image-header-note">Resources from Library of Congress where the entity contributed to its creation.</div>
 
-          <a v-for="image in person.contributor" target="_blank" :href="image.l" >
+          <a v-for="image in person.contributor" target="_blank" :href="image.l.replace('http://www.loc.gov/pictures/item/','https://www.loc.gov/item/')" >
             <div class="image-lc image-lc-contributor" :data-popuptext="image.t" v-bind:style="{backgroundImage: 'url(' + image.i + ')' }" ></div>
           </a>
           <br v-if="person.totalContributorPages > 0 && person.loadedAllContributors == false"/>
@@ -128,7 +128,7 @@ export default {
 
           if (nextPage <= (p[totalPagesVar])){
             //Q23_subject_page_1.json
-            var url = `https://s3.amazonaws.com/lc-photo-expt/qjson22/${qid}_${type}_page_${nextPage}.json`
+            var url = `https://s3.amazonaws.com/lc-photo-expt/data_qjson/${qid}_${type}_page_${nextPage}.json`
             this.$http.get(url)
               .then(response => {
                 var data = response.data;
@@ -218,7 +218,7 @@ export default {
 
       self.people = [];
       page.forEach(function(qid){
-        self.$http.get('https://s3.amazonaws.com/lc-photo-expt/qjson2/'+qid+'.json')
+        self.$http.get('https://s3.amazonaws.com/lc-photo-expt/data_qjson/'+qid+'.json')
           .then(response => {
             var data = response.data
             data.thumbUrl = ''
@@ -294,7 +294,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
   text-align:left;
 }
 .tombstone span{
-  padding-right:10px;
+  /*padding-right:10px;*/
 }
 .image-lc-contributors{
   position: relative;
